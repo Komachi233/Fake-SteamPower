@@ -107,7 +107,6 @@ public class StoreServiceImpl implements IStoreService{
 
     @Override
     public boolean changeGame(Game game) {
-        System.out.println(game.getName());
         return storeDao.changeGame(game);
     }
 }

@@ -38,15 +38,16 @@
         </form>
     </nav>
     <div class="container">
-        <h1 class="text-light" style="min-height: 100px;line-height: 100px;">添加游戏</h1>
+        <h1 class="text-light" style="min-height: 100px;line-height: 100px;">添加用户</h1>
         <form action="/addUser" method="post">
             <div class="form-group text-light">
                 <label>用户名</label>
                 <input type="text" name="name" class="form-control mb-2" placeholder="用户名">
                 <label>密码</label>
                 <input type="password" name="password" class="form-control mb-2" placeholder="密码">
-                <input type="checkbox" name="admin" class="form-check-input mb-2" id="exampleCheck1">
-                <label>是否管理</label>
+                <input th:if="${manager}" type="checkbox" name="admin" class="form-check-input mb-2" id="exampleCheck1">
+
+                <label th:if="${manager}" >是否管理</label>
                 <button type="submit" class="btn btn-primary mb-2">提交</button>
             </div>
         </form>

@@ -236,12 +236,13 @@ public class StoreController {
         }
     }
 
-    @RequestMapping("/edit/{gid}")
-    public void editGame(HttpServletRequest request, HttpServletResponse response,Game game) throws IOException {
+    @RequestMapping("/editGamePage/{gid}")
+    public ModelAndView editGamePage(HttpServletRequest request, HttpServletResponse response,@PathVariable int gid) throws IOException, SQLException {
         /*
         TODO: 检查用户登陆，没登陆去登录页面，否则去编辑页面
          */
         // 检查用户登录
+        ModelAndView mav = new ModelAndView();
         Cookie[] cookie = request.getCookies();
         if(cookie==null){
             response.sendRedirect("/login");
@@ -255,7 +256,44 @@ public class StoreController {
                         /*
                         TODO: 打开模版
                          */
+                        Game g = storeService.getGame(gid);
 
+                        mav.setViewName("add");
+                        mav.addObject("game",g);
+                        mav.addObject("edit",true);
+                        return mav;
+                    }else{
+                        response.sendRedirect("/notFound");
+                    }
+
+                }
+            }
+            // 有cookie但是没有记录登录状态
+            if(user==null) {
+                response.sendRedirect("/login");
+            }
+        }
+        return null;
+    }
+
+    @RequestMapping("/editGame")
+    public void editGame(HttpServletRequest request, HttpServletResponse response,Game game) throws IOException, SQLException {
+        /*
+        TODO: 检查用户登陆，没登陆去登录页面，否则去编辑页面
+         */
+        // 检查用户登录
+        ModelAndView mav = new ModelAndView();
+        Cookie[] cookie = request.getCookies();
+        if(cookie==null){
+            response.sendRedirect("/login");
+        }else{
+            User user = null;
+            for(Cookie c:cookie){
+                if("user".equals(c.getName())){
+                    // 有记录登录状态
+                    user = userService.getUserByCookie(c.getValue());
+                    if(user.getType().equals(UserType.ADMINISTER)){
+                        storeService.changeGame(game);
                         response.sendRedirect("/manage");
                     }else{
                         response.sendRedirect("/notFound");
@@ -285,8 +323,6 @@ public class StoreController {
                         /*
                         TODO: 打开模版
                          */
-                        System.out.println(game.getGid());
-                        System.out.println(game.getName());
                         storeService.addGame(game);
                         response.sendRedirect("/manage");
                     }else{
@@ -320,6 +356,7 @@ public class StoreController {
                         TODO: 打开模版
                          */
                         mav.setViewName("add");
+                        mav.addObject("edit",false);
                         return mav;
                     }else{
                         response.sendRedirect("/login");
@@ -368,4 +405,6 @@ public class StoreController {
         }
         return null;
     }
+
+
 }

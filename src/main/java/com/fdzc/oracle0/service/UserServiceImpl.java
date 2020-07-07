@@ -45,8 +45,8 @@ public class UserServiceImpl implements IUserService{
     }
 
     @Override
-    public void changePass(int uid) {
-
+    public void changePass(int uid,String password) {
+        userDao.changePass(uid,password);
     }
 
     @Override
@@ -59,14 +59,10 @@ public class UserServiceImpl implements IUserService{
         }
     }
 
-    @Override
-    public List<User> getUsers(int page) {
-        return null;
-    }
 
     @Override
     public User getUser(int uid) {
-        return null;
+        return userDao.getUser(uid);
     }
 
     @Override

@@ -60,7 +60,20 @@ public class UserDaoImpl implements IUserDao{
     }
 
     @Override
-    public void changePass(int uid) {
+    public void changePass(int uid,String password) {   // 修改密码
+        Connection conn = DBUtils.getConn();
+
+        String SQL_UPD_PSS = "update TBL_USERS set PASSWORD = ? where USERID = ?";
+        try {
+            PreparedStatement pstmt = conn.prepareStatement(SQL_UPD_PSS);
+            pstmt.setString(1,password);
+            pstmt.setInt(2,uid);
+            pstmt.executeUpdate();
+
+            //update: insert,delete,update. query: select
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
 
     }
 

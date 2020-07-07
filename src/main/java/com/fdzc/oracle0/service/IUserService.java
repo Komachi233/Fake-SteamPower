@@ -13,11 +13,9 @@ public interface IUserService {
     // 添加用户: 注册 or 生成新的管理
     public void addUser(User user);
     // 修改密码
-    public void changePass(int uid);
+    public void changePass(int uid,String password);
     // 封禁用户 or 注销账户
     public void banUser(String uid);
-    // 获取用户列表 - 一页10个
-    public List<User> getUsers(int page);
     // 查询用户
     public User getUser(int uid);
     public List<User> getUsers(String keyword,String page);

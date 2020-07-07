@@ -47,8 +47,14 @@
                 <li data-target="#carouselExampleCaptions" data-slide-to="2"></li>
             </ol>
             <div class="carousel-inner">
-                <div th:class="'carousel-item'+${var.first?' active':''}" th:each="item, var:${navs}">
-                    <img th:src="${item.mainImg}+'/0.jpg'" class="d-block w-100" alt="...">
+                <div class="carousel-item active" >
+                    <img src="/0.jpg" class="d-block w-100" alt="...">
+                </div>
+                <div class="carousel-item" >
+                    <img src="/1.jpg" class="d-block w-100" alt="...">
+                </div>
+                <div class="carousel-item" >
+                    <img src="/2.jpg" class="d-block w-100" alt="...">
                 </div>
 
             </div>
@@ -108,6 +114,9 @@
             Powered by TypeAlpha, Kirin, Komachi<br>
             <a class="text-light" href="/manage">管理入口</a>
             <a th:each="cookie:${#httpServletRequest.getCookies()}" th:if="${cookie.getName().equals('username')}" class="text-light" href="/logout">登出</a>
+            <a class="text-light" href="/login">登录</a>
+            <a class="text-light" href="/signUp">注册</a>
+
         </div>
     </footer>
 </div>

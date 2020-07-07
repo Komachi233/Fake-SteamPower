@@ -60,6 +60,7 @@ Create table tbl_game_tag_relation(
 INSERT INTO tbl_users VALUES(t_user_id_seq.nextval,1,'Kirin','1234566','',1200,'aaa');
 INSERT INTO tbl_users VALUES();
 
+
 --游戏表初始化插入语句
 INSERT INTO tbl_games VALUES(t_game_id_seq.nextval,'游魂2-you are the only one-','Lump of Sugar','HIKARI FIELD',11900,71,
 '本作是由知名美少女游戏品牌Lump of Sugar（方糖社）制作的一款奇幻恋爱题材作品。也是高人气作品《游魂-Kiss on my Deity-》时隔8年

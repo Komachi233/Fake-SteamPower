@@ -148,7 +148,30 @@ public class StoreDaoImpl implements IStoreDao {
 
     @Override
     public boolean changeGame(Game game) {
-        return false;
+        boolean result=false;
+        Connection conn = DBUtils.getConn();
+        int ggid=game.getGid();
+
+        String SQL_UPD_GAME = "update TBL_GAMES set NAME = ?,DEV = ?,PUB = ?,PRICE = ?,DISCOUNT = ?,SUMMARY = ?,PUBLISH_DATE = ?,MAIN_IMAGE = ? where GID = ?";
+        try {
+            PreparedStatement pstmt = conn.prepareStatement(SQL_UPD_GAME);
+            pstmt.setString(1,game.getName());
+            pstmt.setString(2,game.getDev());
+            pstmt.setString(3, game.getPub());
+            pstmt.setInt(4,game.getPrice());
+            pstmt.setInt(5,game.getDiscount());
+            pstmt.setString(6, game.getSummary());
+            pstmt.setString(7,game.getPubDate());
+            pstmt.setString(8,game.getMainImg());
+            pstmt.setInt(9,ggid);
+            pstmt.executeUpdate();
+            result=true;
+            //update: insert,delete,update. query: select
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return result;
     }
 
     /////////////////////////////////////KOMACHI///////////////////////////////////////
