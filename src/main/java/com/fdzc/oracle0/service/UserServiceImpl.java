@@ -7,6 +7,7 @@ import com.fdzc.oracle0.dao.IUserDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -40,7 +41,7 @@ public class UserServiceImpl implements IUserService{
 
     @Override
     public void addUser(User user) {
-
+        userDao.addUser(user);
     }
 
     @Override
@@ -49,8 +50,13 @@ public class UserServiceImpl implements IUserService{
     }
 
     @Override
-    public void banUser(int uid, int level) {
+    public void banUser(String uid) {
+        try {
+            int u = Integer.parseInt(uid);
+            userDao.banUser(u);
+        }catch (NumberFormatException e){
 
+        }
     }
 
     @Override
@@ -61,5 +67,22 @@ public class UserServiceImpl implements IUserService{
     @Override
     public User getUser(int uid) {
         return null;
+    }
+
+    @Override
+    public List<User> getUsers(String keyword, String page) {
+        List<User> users = new ArrayList<>();
+        int p;
+        try {
+            if(page==null){
+                page = "1";
+            }
+            p = Integer.parseInt(page);
+            users = userDao.getUsers(keyword,p);
+        }catch (NumberFormatException e){
+            // System.out.println("数字错误");
+            return null;
+        }
+        return users;
     }
 }

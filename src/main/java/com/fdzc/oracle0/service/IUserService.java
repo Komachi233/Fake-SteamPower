@@ -15,9 +15,10 @@ public interface IUserService {
     // 修改密码
     public void changePass(int uid);
     // 封禁用户 or 注销账户
-    public void banUser(int uid, int level);
+    public void banUser(String uid);
     // 获取用户列表 - 一页10个
     public List<User> getUsers(int page);
     // 查询用户
     public User getUser(int uid);
+    public List<User> getUsers(String keyword,String page);
 }

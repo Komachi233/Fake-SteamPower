@@ -38,21 +38,25 @@
         </form>
     </nav>
     <div class="container">
-        <h1 class="text-light" style="min-height: 100px;line-height: 100px;">管理平台</h1>
-        <a href="/addGame"><button class="btn btn-primary mb-2">增加游戏</button></a>
-        <a href="/addUserPage"><button class="btn btn-primary mb-2">增加用户</button></a>
-        <form action="/managerSearchGame" method="post">
+        <h1 class="text-light" style="min-height: 100px;line-height: 100px;">添加游戏</h1>
+        <form action="/add" method="post">
             <div class="form-group text-light">
-                <label for="formGroupExampleInput">搜索游戏</label>
-                <input type="text" name="keyword" class="form-control mb-2" id="formGroupExampleInput" placeholder="搜索游戏">
-                <button type="submit" class="btn btn-primary mb-2">提交</button>
-            </div>
-        </form>
-
-        <form action="/managerSearchUser" method="post">
-            <div class="form-group text-light">
-                <label for="formGroupExampleInput1">搜索用户</label>
-                <input type="text" name="keyword" class="form-control mb-2" id="formGroupExampleInput1" placeholder="搜索用户">
+                <label>游戏名</label>
+                <input type="text" name="name" class="form-control mb-2" placeholder="游戏名">
+                <label>开发商</label>
+                <input type="text" name="dev" class="form-control mb-2" placeholder="开发商">
+                <label>发行商</label>
+                <input type="text" name="pub" class="form-control mb-2" placeholder="发行商">
+                <label>定价 - 单位分</label>
+                <input type="text" name="price" class="form-control mb-2" placeholder="定价 - 单位分">
+                <label>折扣 - 百分比</label>
+                <input type="text" name="discount" class="form-control mb-2" placeholder="折扣 - 百分比">
+                <label>简介</label>
+                <input type="text" name="summary" class="form-control mb-2" placeholder="简介">
+                <label>发行时间 格式：YYYY-M-D</label>
+                <input type="text" name="pubDate" class="form-control mb-2" placeholder="发行时间 格式：YYYY-M-D">
+                <label>图片保存的目录</label>
+                <input type="text" name="mainImg" class="form-control mb-2" placeholder="图片保存的目录">
                 <button type="submit" class="btn btn-primary mb-2">提交</button>
             </div>
         </form>

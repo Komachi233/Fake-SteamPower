@@ -9,13 +9,13 @@ public class DBUtils {
 //    private static final String USERNAME = "kirin";
 //    private static final String PWD = "oracle";
 
-//    private static final String CONN_STR="jdbc:oracle:thin:@192.168.1.188:1521:orcl";
-//    private static final String USERNAME="tester0";
-//    private static final String PWD="abc12345";
+    private static final String CONN_STR="jdbc:oracle:thin:@192.168.1.188:1521:orcl";
+    private static final String USERNAME="tester0";
+    private static final String PWD="abc12345";
 
-    private static final String CONN_STR="jdbc:oracle:thin:@169.254.25.188:1521:orcl";
-    private static final String USERNAME="tester";
-    private static final String PWD = "abc123";
+//    private static final String CONN_STR="jdbc:oracle:thin:@169.254.25.188:1521:orcl";
+//    private static final String USERNAME="tester";
+//    private static final String PWD = "abc123";
 
     /***
      * 获取连接

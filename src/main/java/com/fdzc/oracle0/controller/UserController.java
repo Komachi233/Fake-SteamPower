@@ -1,5 +1,6 @@
 package com.fdzc.oracle0.controller;
 
+import com.fdzc.oracle0.bean.Game;
 import com.fdzc.oracle0.bean.User;
 import com.fdzc.oracle0.bean.UserType;
 import com.fdzc.oracle0.service.IStoreService;
@@ -15,6 +16,7 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.List;
 
 @RestController
 public class UserController {
@@ -58,8 +60,70 @@ public class UserController {
         }
     }
 
-    @RequestMapping("/edit/{gid}")
-    public void editGame(HttpServletRequest request, HttpServletResponse response,@PathVariable String gid) throws IOException {
+    @RequestMapping("/addUserPage")
+    public ModelAndView addUserPage(HttpServletResponse response,HttpServletRequest request) throws IOException {
+        ModelAndView mav = new ModelAndView();
+        Cookie[] cookie = request.getCookies();
+        List<Game> games;
+        if(cookie==null){
+            response.sendRedirect("/login");
+        }else{
+            User user = null;
+            for(Cookie c:cookie){
+                if("user".equals(c.getName())){
+                    // 有记录登录状态
+                    user = userService.getUserByCookie(c.getValue());
+                    if(user.getType().equals(UserType.ADMINISTER)){
+                        mav.setViewName("addUser");
+                    }else {
+                        mav.setViewName("notFound");
+                        return mav;
+                    }
+                    return mav;
+                }
+            }
+            // 有cookie但是没有记录登录状态
+            if(user==null) {
+                response.sendRedirect("/login");
+            }
+        }
+        return null;
+    }
+
+    @RequestMapping("/addUser")
+    public void addUser(HttpServletRequest request, HttpServletResponse response,User user) throws IOException {
+        Cookie[] cookie = request.getCookies();
+        if(cookie==null){
+            response.sendRedirect("/login");
+        }else{
+            User u = null;
+            for(Cookie c:cookie){
+                if("user".equals(c.getName())){
+                    // 有记录登录状态
+                    u = userService.getUserByCookie(c.getValue());
+                    if(u.getType().equals(UserType.ADMINISTER)){
+                        if(request.getParameter("admin")=="on"){
+                            user.setType(UserType.ADMINISTER);
+                        }else{
+                            user.setType(UserType.DEFAULT);
+                        }
+                        userService.addUser(user);
+                        response.sendRedirect("/manage");
+                    }else{
+                        response.sendRedirect("/notFound");
+                    }
+
+                }
+            }
+            // 有cookie但是没有记录登录状态
+            if(user==null) {
+                response.sendRedirect("/login");
+            }
+        }
+    }
+
+    @RequestMapping("/ban/{uid}")
+    public void banUser(HttpServletRequest request, HttpServletResponse response,@PathVariable String uid) throws IOException {
         /*
         TODO:检查用户登陆，没登陆去登录页面，否则去编辑页面
          */
@@ -73,12 +137,11 @@ public class UserController {
                 if("user".equals(c.getName())){
                     // 有记录登录状态
                     user = userService.getUserByCookie(c.getValue());
-//                    System.out.println(user.getName());
-                    if(storeService.addToCart(gid,user.getUid())){
-                        response.sendRedirect("/cart");
+                    if(user.getType().equals(UserType.ADMINISTER)){
+                        userService.banUser(uid);
+                        response.sendRedirect("/manage");
                     }else{
-                        //添加失败
-                        response.sendRedirect("/cart?err=1");
+                        response.sendRedirect("/notFound");
                     }
 
                 }

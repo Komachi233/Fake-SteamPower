@@ -24,9 +24,6 @@ public interface IStoreDao {
     // 获取三个游戏渲染首页
     public List<Game> getNavGames() throws SQLException;
 
-    // 测试用，可删除
-    public List<Game> getTestGames();
-
     // 管理添加游戏
     public boolean addGame(Game game);
 
@@ -34,7 +31,7 @@ public interface IStoreDao {
     public boolean addTag(int gid,String tagName);
 
     // 停止销售某款游戏 停止成功 true，失败false
-    public void stopSell(int gid);
+    public boolean stopSell(int gid);
 
     // 修改某款游戏内容
     public boolean changeGame(Game game);

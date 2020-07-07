@@ -126,7 +126,7 @@ public class Game {
         this.mainImg = mainImg;
     }
 
-    public int getStatus() {
+    public boolean getStatus() {
         return status;
     }
 

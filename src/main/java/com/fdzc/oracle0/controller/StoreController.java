@@ -204,4 +204,168 @@ public class StoreController {
         }
         return null;
     }
+
+    @RequestMapping("/deactivate/{gid}")
+    public void deactivateGame(HttpServletRequest request, HttpServletResponse response,@PathVariable String gid) throws IOException {
+        /*
+        TODO:检查用户登陆，没登陆去登录页面，否则去编辑页面
+         */
+        // 检查用户登录
+        Cookie[] cookie = request.getCookies();
+        if(cookie==null){
+            response.sendRedirect("/login");
+        }else{
+            User user = null;
+            for(Cookie c:cookie){
+                if("user".equals(c.getName())){
+                    // 有记录登录状态
+                    user = userService.getUserByCookie(c.getValue());
+                    if(user.getType().equals(UserType.ADMINISTER)){
+                        storeService.stopSell(gid);
+                        response.sendRedirect("/manage");
+                    }else{
+                        response.sendRedirect("/notFound");
+                    }
+
+                }
+            }
+            // 有cookie但是没有记录登录状态
+            if(user==null) {
+                response.sendRedirect("/login");
+            }
+        }
+    }
+
+    @RequestMapping("/edit/{gid}")
+    public void editGame(HttpServletRequest request, HttpServletResponse response,Game game) throws IOException {
+        /*
+        TODO: 检查用户登陆，没登陆去登录页面，否则去编辑页面
+         */
+        // 检查用户登录
+        Cookie[] cookie = request.getCookies();
+        if(cookie==null){
+            response.sendRedirect("/login");
+        }else{
+            User user = null;
+            for(Cookie c:cookie){
+                if("user".equals(c.getName())){
+                    // 有记录登录状态
+                    user = userService.getUserByCookie(c.getValue());
+                    if(user.getType().equals(UserType.ADMINISTER)){
+                        /*
+                        TODO: 打开模版
+                         */
+
+                        response.sendRedirect("/manage");
+                    }else{
+                        response.sendRedirect("/notFound");
+                    }
+
+                }
+            }
+            // 有cookie但是没有记录登录状态
+            if(user==null) {
+                response.sendRedirect("/login");
+            }
+        }
+    }
+
+    @RequestMapping("/add")
+    public void addGame(HttpServletRequest request, HttpServletResponse response,Game game) throws IOException {
+        Cookie[] cookie = request.getCookies();
+        if(cookie==null){
+            response.sendRedirect("/login");
+        }else{
+            User user = null;
+            for(Cookie c:cookie){
+                if("user".equals(c.getName())){
+                    // 有记录登录状态
+                    user = userService.getUserByCookie(c.getValue());
+                    if(user.getType().equals(UserType.ADMINISTER)){
+                        /*
+                        TODO: 打开模版
+                         */
+                        System.out.println(game.getGid());
+                        System.out.println(game.getName());
+                        storeService.addGame(game);
+                        response.sendRedirect("/manage");
+                    }else{
+                        response.sendRedirect("/notFound");
+                    }
+
+                }
+            }
+            // 有cookie但是没有记录登录状态
+            if(user==null) {
+                response.sendRedirect("/login");
+            }
+        }
+
+    }
+
+    @RequestMapping("/addGame")
+    public ModelAndView addGamePage(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        ModelAndView mav = new ModelAndView();
+        Cookie[] cookie = request.getCookies();
+        if(cookie==null){
+            response.sendRedirect("/login");
+        }else{
+            User user = null;
+            for(Cookie c:cookie){
+                if("user".equals(c.getName())){
+                    // 有记录登录状态
+                    user = userService.getUserByCookie(c.getValue());
+                    if(user.getType().equals(UserType.ADMINISTER)){
+                        /*
+                        TODO: 打开模版
+                         */
+                        mav.setViewName("add");
+                        return mav;
+                    }else{
+                        response.sendRedirect("/login");
+                    }
+
+                }
+            }
+            // 有cookie但是没有记录登录状态
+            if(user==null) {
+                response.sendRedirect("/login");
+            }
+        }
+        return null;
+    }
+
+
+    @RequestMapping("/managerSearchUser")
+    public ModelAndView managerSearchUser(HttpServletResponse response,HttpServletRequest request,@RequestParam(name="keyword",required = false) String keyword, @RequestParam(name="page",required = false) String page) throws IOException {
+        ModelAndView mav = new ModelAndView();
+        Cookie[] cookie = request.getCookies();
+        List<User> users;
+        if(cookie==null){
+            response.sendRedirect("/login");
+        }else{
+            User user = null;
+            for(Cookie c:cookie){
+                if("user".equals(c.getName())){
+                    // 有记录登录状态
+                    user = userService.getUserByCookie(c.getValue());
+                    if(user.getType().equals(UserType.ADMINISTER)){
+                        users = userService.getUsers(keyword, page);
+                        mav.setViewName("searchUser");
+                        mav.addObject("keyword",keyword);
+                        mav.addObject("users",users);
+                    }else {
+                        mav.setViewName("notFound");
+                        return mav;
+                    }
+                    return mav;
+                }
+            }
+            // 有cookie但是没有记录登录状态
+            if(user==null) {
+                response.sendRedirect("/login");
+            }
+        }
+        return null;
+    }
 }

@@ -13,12 +13,11 @@ public interface IUserDao {
     // 修改密码
     public void changePass(int uid);
     // 封禁用户 or 注销账户
-    public void banUser(int uid, int level);
-    // 获取用户列表 - 一页10个
-    public List<User> getUsers(int page);
+    public void banUser(int uid);
     // 查询用户
     public User getUser(int uid);
     public User getUser(String name);
+    public List<User> getUsers(String keyword,int page);
     // 由cookie获取用户
     public User getUserByCookie(String cookie);
     // 改余额
